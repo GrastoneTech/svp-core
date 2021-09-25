@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 public class Responses {
 	
+	@Value("${response.1}")
+	public  String RESP_1;
+	
 	@Value("${response.100}")
 	public  String RESP_100;
 	
@@ -40,6 +43,18 @@ public class Responses {
 	
 	@Value("${response.109}")
 	public  String RESP_109;
+	
+	@Value("${response.110}")
+	public  String RESP_110;
+	
+	@Value("${response.111}")
+	public  String RESP_111;
+	
+	@Value("${response.112}")
+	public  String RESP_112;
+	
+	@Value("${response.113}")
+	public  String RESP_113;
 	
 
 }

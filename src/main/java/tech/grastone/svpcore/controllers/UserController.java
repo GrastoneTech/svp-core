@@ -3,31 +3,39 @@ package tech.grastone.svpcore.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import tech.grastone.svpcore.dao.UserDao;
-import tech.grastone.svpcore.dtos.PassAuthResponseDTO;
 import tech.grastone.svpcore.dtos.ProfileUpdateRequestDTO;
 import tech.grastone.svpcore.entities.ApiResponse;
 import tech.grastone.svpcore.entities.MetadataEntity;
 import tech.grastone.svpcore.entities.Responses;
+import tech.grastone.svpcore.services.ApiValidationErrorService;
 
 @RestController
 @RequestMapping("user")
 @Api(value = "Provide the user information")
-public class UserController {
+public class UserController extends ApiValidationErrorService{
+
+	
 	@Autowired
 	private Responses responses;
 	
@@ -36,7 +44,7 @@ public class UserController {
 	
 	@PostMapping("profile/update")
 	@ApiOperation(value = "update user profile and activate user", tags = "profile")
-	public ResponseEntity<?> profileUpdate(@RequestHeader("Authorization") String authHeader,  @RequestBody ProfileUpdateRequestDTO profileUpdateRequest) throws Exception {
+	public ResponseEntity<?> profileUpdate(@RequestHeader("Authorization") String authHeader, @Valid @Validated @RequestBody ProfileUpdateRequestDTO profileUpdateRequest) throws Exception {
 		try {
 			return userDao.updateProfileDetails(profileUpdateRequest);
 		} catch (Exception e) {
@@ -60,5 +68,6 @@ public class UserController {
 		}
 	}
 
+	
 	
 }
